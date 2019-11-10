@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="area">
+  <head>
+    <meta charset="utf-8">
+    <title>Chess Game</title>
+    <link rel="stylesheet" href="myStyle.css">
+  </head>
+  <!-- Inspired by GeekyNet's YouTube video on making a chess game with HTML, CSS, and JQuery -->
+  <body class="area">
+    <div id="info" class="area">
+      <div class="area" id="playerBlack">Player Black</div>
+      <div class="area" id="playerWhite">Player White</div>
+      <div id='board' class="area">
+        <div class="square-white" row='1' column='1' player='black' piece = 'rook'></div>
+        <div class="square-black" row='1' column='2' player='black' piece = 'knight'></div>
+        <div class="square-white" row='1' column='3' player='black' piece = 'bishop'></div>
+        <div class="square-black" row='1' column='4' player='black' piece = 'queen'></div>
+        <div class="square-white" row='1' column='5' player='black' piece = 'king'></div>
+        <div class="square-black" row='1' column='6' player='black' piece = 'bishop'></div>
+        <div class="square-white" row='1' column='7' player='black' piece = 'knight'></div>
+        <div class="square-black" row='1' column='8' player='black' piece = 'rook'></div>
+        <br>
+        <div class="square-black" row='2' column='1' player='black' piece = 'pawn'></div>
+        <div class="square-white" row='2' column='2' player='black' piece = 'pawn'></div>
+        <div class="square-black" row='2' column='3' player='black' piece = 'pawn'></div>
+        <div class="square-white" row='2' column='4' player='black' piece = 'pawn'></div>
+        <div class="square-black" row='2' column='5' player='black' piece = 'pawn'></div>
+        <div class="square-white" row='2' column='6' player='black' piece = 'pawn'></div>
+        <div class="square-black" row='2' column='7' player='black' piece = 'pawn'></div>
+        <div class="square-white" row='2' column='8' player='black' piece = 'pawn'></div>
+        <br>
+        <div class="square-white" row='3' column='1' player='' piece="" enPassant = 'false'></div>
+        <div class="square-black" row='3' column='2' player='' piece="" enPassant = 'false'></div>
+        <div class="square-white" row='3' column='3' player='' piece="" enPassant = 'false'></div>
+        <div class="square-black" row='3' column='4' player='' piece="" enPassant = 'false'></div>
+        <div class="square-white" row='3' column='5' player='' piece="" enPassant = 'false'></div>
+        <div class="square-black" row='3' column='6' player='' piece="" enPassant = 'false'></div>
+        <div class="square-white" row='3' column='7' player='' piece="" enPassant = 'false'></div>
+        <div class="square-black" row='3' column='8' player='' piece="" enPassant = 'false'></div>
+        <br>
+        <div class="square-black" row='4' column='1' player='' piece=""></div>
+        <div class="square-white" row='4' column='2' player='' piece=""></div>
+        <div class="square-black" row='4' column='3' player='' piece=""></div>
+        <div class="square-white" row='4' column='4' player='' piece=""></div>
+        <div class="square-black" row='4' column='5' player='' piece=""></div>
+        <div class="square-white" row='4' column='6' player='' piece=""></div>
+        <div class="square-black" row='4' column='7' player='' piece=""></div>
+        <div class="square-white" row='4' column='8' player='' piece=""></div>
+        <br>
+        <div class="square-white" row='5' column='1' player='' piece=""></div>
+        <div class="square-black" row='5' column='2' player='' piece=""></div>
+        <div class="square-white" row='5' column='3' player='' piece=""></div>
+        <div class="square-black" row='5' column='4' player='' piece=""></div>
+        <div class="square-white" row='5' column='5' player='' piece=""></div>
+        <div class="square-black" row='5' column='6' player='' piece=""></div>
+        <div class="square-white" row='5' column='7' player='' piece=""></div>
+        <div class="square-black" row='5' column='8' player='' piece=""></div>
+        <br>
+        <div class="square-black" row='6' column='1' player='' piece="" enPassant = 'false'></div>
+        <div class="square-white" row='6' column='2' player='' piece="" enPassant = 'false'></div>
+        <div class="square-black" row='6' column='3' player='' piece="" enPassant = 'false'></div>
+        <div class="square-white" row='6' column='4' player='' piece="" enPassant = 'false'></div>
+        <div class="square-black" row='6' column='5' player='' piece="" enPassant = 'false'></div>
+        <div class="square-white" row='6' column='6' player='' piece="" enPassant = 'false'></div>
+        <div class="square-black" row='6' column='7' player='' piece="" enPassant = 'false'></div>
+        <div class="square-white" row='6' column='8' player='' piece="" enPassant = 'false'></div>
+        <br>
+        <div class="square-white" row='7' column='1' player='white' piece = 'pawn'></div>
+        <div class="square-black" row='7' column='2' player='white' piece = 'pawn'></div>
+        <div class="square-white" row='7' column='3' player='white' piece = 'pawn'></div>
+        <div class="square-black" row='7' column='4' player='white' piece = 'pawn'></div>
+        <div class="square-white" row='7' column='5' player='white' piece = 'pawn'></div>
+        <div class="square-black" row='7' column='6' player='white' piece = 'pawn'></div>
+        <div class="square-white" row='7' column='7' player='white' piece = 'pawn'></div>
+        <div class="square-black" row='7' column='8' player='white' piece = 'pawn'></div>
+        <br>
+        <div class="square-black" row='8' column='1' player='white' piece = 'rook'></div>
+        <div class="square-white" row='8' column='2' player='white' piece = 'knight'></div>
+        <div class="square-black" row='8' column='3' player='white' piece = 'bishop'></div>
+        <div class="square-white" row='8' column='4' player='white' piece = 'queen'></div>
+        <div class="square-black" row='8' column='5' player='white' piece = 'king'></div>
+        <div class="square-white" row='8' column='6' player='white' piece = 'bishop'></div>
+        <div class="square-black" row='8' column='7' player='white' piece = 'knight'></div>
+        <div class="square-white" row='8' column='8' player='white' piece = 'rook'></div>
+        <br>
+      </div>
+    </div>
+    <audio id="errorSound" src="./sounds/error.mp3"></audio>
+    <audio id="moveSound" src="./sounds/move.mp3"></audio>
+    <audio id="promotionSound" src="./sounds/promotion.mp3"></audio>
+    <script type="text/javascript" src="chess.js"></script>
+  </body>
+</html>
