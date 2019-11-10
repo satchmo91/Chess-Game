@@ -1,4 +1,4 @@
-
+//test
 //global variables
 var target;
 var originalColor;
