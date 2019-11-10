@@ -1,7 +1,5 @@
-//Dad's checking it out!
-//test
-//global variables
-var target = 1;
+
+var target;
 var originalColor;
 var lastMove;
 var toColor;
