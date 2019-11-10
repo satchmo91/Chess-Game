@@ -140,6 +140,7 @@ let move = function(e){
     }
 };
 
+//Deletes the appropriate pawn during an en passant capture
 let enPassantCapture = function(targetColumn, targetRow, playersTurn){
   var div = document.getElementsByTagName("div");
   if(playersTurn === "white"){
@@ -161,6 +162,7 @@ let enPassantCapture = function(targetColumn, targetRow, playersTurn){
   }
 }
 
+//Checks to make sure the attempted move is legal. This is the main function for all of the piece logic in the game
 let isLegalMove = function(target, e){
   //check if the correct player is trying to move
   if(target.getAttribute("player") === playersTurn){
@@ -169,7 +171,7 @@ let isLegalMove = function(target, e){
     targetRow = parseInt(e.target.getAttribute("row"));
     currentColumn = parseInt(target.getAttribute("column"));
     targetColumn = parseInt(e.target.getAttribute("column"));
-    //handles pawn moves
+    //handles all pawn moves
     if(target.getAttribute("piece") === "pawn"){
       //handles white's pawn move foward 1 or 2 squares
       if(playersTurn === "white"){
@@ -183,12 +185,10 @@ let isLegalMove = function(target, e){
               }
             }
           }
-          console.log('regular move');
           legalMove = true;
         //handles white's capture mechanincs
         } else if ((targetRow === (currentRow - 1) && targetColumn === (currentColumn + 1) && e.target.getAttribute("player") === 'black') || (targetRow    === (currentRow - 1) && targetColumn === (currentColumn - 1) && e.target.getAttribute("player") === 'black')){
           legalMove = true;
-          console.log('regular capture');
           //white's en passant
         } else if ((targetRow === (currentRow - 1) && targetColumn === (currentColumn + 1) && e.target.getAttribute('enPassant') === 'true' || (targetRow  === (currentRow - 1) && targetColumn === (currentColumn - 1) && e.target.getAttribute('enPassant') === 'true'))){
           legalMove = true;
@@ -219,5 +219,14 @@ let isLegalMove = function(target, e){
           }
         }
     }
+    //handles all vertical and horizontal moves. Ultimately handles the bishop, rook, queen, and king
+    if(target.getAttribute('piece') === "rook" || target.getAttribute('piece') === "bishop" || target.getAttribute('piece') === "queen" || target.getAttribute('piece') === "king"){
+      console.log(target.getAttribute('piece'));
+    }
+    //handles knight moves CURRENTLY DOES NOTHING
+    if(target.getAttribute('piece') === "knight"){
+    }
+    //Here is probably where I'll put functions for checking mate, check, and stalemate conditions
+    //
   }
 }
