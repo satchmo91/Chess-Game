@@ -1,3 +1,4 @@
+//Dad's checking it out!
 //test
 //global variables
 var target;
