@@ -132,6 +132,7 @@ let move = function(e){
   originalColor = undefined;
   legalMove = false;
   captureEnPassant = false;
+  eligableSquares = [];
   moveSound.load();
   moveSound.play();
   if(playersTurn === "white"){
@@ -221,9 +222,31 @@ let isLegalMove = function(target, e){
         }
     }
     //handles all vertical and horizontal moves. Ultimately handles the bishop, rook, queen, and king
-    if(target.getAttribute('piece') === "rook" || target.getAttribute('piece') === "bishop" || target.getAttribute('piece') === "queen" || target.getAttribute('piece') === "king"){
-      console.log(target.getAttribute('piece'));
-      // checkHorizontal(target, currentRow, currentColumn);
+    if(target.getAttribute('piece') === "rook" || target.getAttribute('piece') === "bishop" || target.getAttribute('piece') === "queen"){
+      if(target.getAttribute('piece') === 'rook'){
+        checkLateral(target, currentRow, currentColumn);
+      }
+      if(target.getAttribute('piece') === 'bishop'){
+        checkDiagonal(target, currentRow, currentColumn);
+      }
+      if(target.getAttribute('piece') === 'queen'){
+        checkLateral(target, currentRow, currentColumn);
+        checkDiagonal(target, currentRow, currentColumn);
+      }
+      for (var i = 0; i < eligableSquares.length; i++) {
+        if(eligableSquares[i] === e.target){
+          legalMove = true;
+          break;
+        }
+      }
+    }
+    //king code. The reason this is seperate is because I thought it might be easier to write special code for the king than to modify the checkLaterand and check Horizontal functions to include his limited move scope
+    if(target.getAttribute('piece') === 'king'){
+      if((targetRow === currentRow && targetColumn === currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow && targetColumn === currentColumn + 1 && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow - 1 && targetColumn === currentColumn && e.target.getAttribute('player') !== playersTurn) ||
+      (targetRow === currentRow + 1 && targetColumn === currentColumn && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow - 1 && targetColumn === currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) ||
+      (targetRow === currentRow + 1 && targetColumn === currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow + 1 && targetColumn === currentColumn + 1 && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow -1 && targetColumn === currentColumn + 1 && e.target.getAttribute('player') !== playersTurn)){
+        legalMove = true;
+    }
     }
     //handles knight moves CURRENTLY DOES NOTHING
     if(target.getAttribute('piece') === "knight"){
@@ -233,17 +256,169 @@ let isLegalMove = function(target, e){
   }
 }
 
-//currently broken because I am stuck on how to loop through the potential horizontal squares
-// const checkHorizontal = function(target, currentRow, currentColumn){
-//   let div = document.getElementsByTagName('div');
-//   let potentialSquare;
-//   let divsInRow = [];
-//   for (var i = 0; i < div.length; i++) {
-//     if(parseInt(div[i].getAttribute('row')) === currentRow){
-//       divsInRow.push(div[i]);
-//     }
-//   }
-//   for (var i = 1; i < 8; i++) {
-//     if()
-//     }
-// }
+//Not Ready!! Check horizontal and vertical squares for eligability. Note: add breaks in the future to avoid unnecessary computation
+const checkLateral = function(target, currentRow, currentColumn){
+  let div = document.getElementsByTagName('div');
+  let loopLeft = true;
+  let loopRight = true;
+  let loopUp = true;
+  let loopDown = true;
+  //check horizontal left squares (column -)
+  for (var p = 1; p < 8; p++) {
+    if(loopLeft){
+      for (var i = 0; i < div.length; i++) {
+        if(parseInt(div[i].getAttribute('row')) === currentRow && parseInt(div[i].getAttribute('column')) === (currentColumn-p)){
+          if(div[i].getAttribute('player') === ''){
+            eligableSquares.push(div[i]);
+          } else if (div[i].getAttribute('player') !== playersTurn){
+            eligableSquares.push(div[i]);
+            loopLeft = false;
+            break;
+          } else {
+            loopLeft = false;
+            break;
+          }
+        }
+      }
+    }
+  }
+  //check horizontal right squares (column +)
+  for (var p = 1; p < 8; p++) {
+    if(loopRight){
+      for (var i = 0; i < div.length; i++) {
+        if(parseInt(div[i].getAttribute('row')) === currentRow && parseInt(div[i].getAttribute('column')) === (currentColumn+p)){
+          if(div[i].getAttribute('player') === ''){
+            eligableSquares.push(div[i]);
+          } else if (div[i].getAttribute('player') !== playersTurn){
+            eligableSquares.push(div[i]);
+            loopRight= false;
+            break;
+          } else {
+            loopRight = false;
+            break;
+          }
+        }
+      }
+    }
+  }
+  //check vertical up squares (row -)
+  for (var p = 1; p < 8; p++) {
+    if(loopUp){
+      for (var i = 0; i < div.length; i++) {
+        if(parseInt(div[i].getAttribute('column')) === currentColumn && parseInt(div[i].getAttribute('row')) === (currentRow-p)){
+          if(div[i].getAttribute('player') === ''){
+            eligableSquares.push(div[i]);
+          } else if (div[i].getAttribute('player') !== playersTurn){
+            eligableSquares.push(div[i]);
+            loopUp = false;
+            break;
+          } else {
+            loopUp = false;
+            break;
+          }
+        }
+      }
+    }
+  }
+  //check vertical down squares (row +)
+  for (var p = 1; p < 8; p++) {
+    if(loopDown){
+      for (var i = 0; i < div.length; i++) {
+        if(parseInt(div[i].getAttribute('column')) === currentColumn && parseInt(div[i].getAttribute('row')) === (currentRow+p)){
+          if(div[i].getAttribute('player') === ''){
+            eligableSquares.push(div[i]);
+          } else if (div[i].getAttribute('player') !== playersTurn){
+            eligableSquares.push(div[i]);
+            break;
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  }
+}
+
+let checkDiagonal = function(target, currentRow, currentColumn){
+  let div = document.getElementsByTagName('div');
+  let loopUpLeft = true;
+  let loopUpRight = true;
+  let loopDownLeft = true;
+  let loopDownRight = true;
+  //check diagonal up left squares (row - and column -)
+  for (var p = 1; p < 8; p++) {
+    if(loopUpLeft){
+      for (var i = 0; i < div.length; i++) {
+        if(parseInt(div[i].getAttribute('row')) === currentRow - p && parseInt(div[i].getAttribute('column')) === (currentColumn-p)){
+          if(div[i].getAttribute('player') === ''){
+            eligableSquares.push(div[i]);
+          } else if (div[i].getAttribute('player') !== playersTurn){
+            eligableSquares.push(div[i]);
+            loopUpLeft = false;
+            break;
+          } else {
+            loopUpLeft = false;
+            break;
+          }
+        }
+      }
+    }
+  }
+  //check diagonal up right squares (row - and column +)
+  for (var p = 1; p < 8; p++) {
+    if(loopUpRight){
+      for (var i = 0; i < div.length; i++) {
+        if(parseInt(div[i].getAttribute('row')) === currentRow - p && parseInt(div[i].getAttribute('column')) === (currentColumn+p)){
+          if(div[i].getAttribute('player') === ''){
+            eligableSquares.push(div[i]);
+          } else if (div[i].getAttribute('player') !== playersTurn){
+            eligableSquares.push(div[i]);
+            loopUpRight = false;
+            break;
+          } else {
+            loopUpRight = false;
+            break;
+          }
+        }
+      }
+    }
+  }
+  //check diagonal down left squares (row + and column -)
+  for (var p = 1; p < 8; p++) {
+    if(loopDownLeft){
+      for (var i = 0; i < div.length; i++) {
+        if(parseInt(div[i].getAttribute('row')) === currentRow + p && parseInt(div[i].getAttribute('column')) === (currentColumn-p)){
+          if(div[i].getAttribute('player') === ''){
+            eligableSquares.push(div[i]);
+          } else if (div[i].getAttribute('player') !== playersTurn){
+            eligableSquares.push(div[i]);
+            loopDownLeft = false;
+            break;
+          } else {
+            loopDownLeft = false;
+            break;
+          }
+        }
+      }
+    }
+  }
+  //check diagonal Down Right squares (row + and column +)
+  for (var p = 1; p < 8; p++) {
+    if(loopDownRight){
+      for (var i = 0; i < div.length; i++) {
+        if(parseInt(div[i].getAttribute('row')) === currentRow + p && parseInt(div[i].getAttribute('column')) === (currentColumn+p)){
+          if(div[i].getAttribute('player') === ''){
+            eligableSquares.push(div[i]);
+          } else if (div[i].getAttribute('player') !== playersTurn){
+            eligableSquares.push(div[i]);
+            loopDownRight = false;
+            break;
+          } else {
+            loopDownRight = false;
+            break;
+          }
+        }
+      }
+    }
+  }
+}
