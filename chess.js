@@ -15,6 +15,8 @@ let errorSound = document.getElementById("errorSound");
 let moveSound = document.getElementById("moveSound");
 let promotionSound = document.getElementById("promotionSound");
 let eligableSquares = [];
+const playerWhite = document.getElementById('playerWhite');
+const playerBlack = document.getElementById('playerBlack');
 promotionSound.load();
 
 
@@ -137,8 +139,12 @@ let move = function(e){
   moveSound.play();
   if(playersTurn === "white"){
     playersTurn = "black";
+    playerBlack.style.color = "blue";
+    playerWhite.style.color = "black";
   } else {
     playersTurn = "white";
+    playerWhite.style.color = "blue";
+    playerBlack.style.color = "black";
     }
 };
 
@@ -210,7 +216,7 @@ let isLegalMove = function(target, e){
               }
             }
             legalMove = true;
-            //handles black's capture mechanics
+            //handles black's pawn capture mechanics
           } else if ((targetRow === (currentRow + 1) && targetColumn === (currentColumn + 1) && e.target.getAttribute("player") === 'white') || (targetRow === (currentRow + 1) && targetColumn === (currentColumn - 1) && e.target.getAttribute("player") === 'white')){
             legalMove = true;
             //black's en passant
@@ -242,14 +248,29 @@ let isLegalMove = function(target, e){
     }
     //king code. The reason this is seperate is because I thought it might be easier to write special code for the king than to modify the checkLaterand and check Horizontal functions to include his limited move scope
     if(target.getAttribute('piece') === 'king'){
-      if((targetRow === currentRow && targetColumn === currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow && targetColumn === currentColumn + 1 && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow - 1 && targetColumn === currentColumn && e.target.getAttribute('player') !== playersTurn) ||
-      (targetRow === currentRow + 1 && targetColumn === currentColumn && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow - 1 && targetColumn === currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) ||
-      (targetRow === currentRow + 1 && targetColumn === currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow + 1 && targetColumn === currentColumn + 1 && e.target.getAttribute('player') !== playersTurn) || (targetRow === currentRow -1 && targetColumn === currentColumn + 1 && e.target.getAttribute('player') !== playersTurn)){
+      if((targetRow === currentRow && targetColumn === currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) ||
+         (targetRow === currentRow && targetColumn === currentColumn + 1 && e.target.getAttribute('player') !== playersTurn) ||
+         (targetRow === currentRow - 1 && targetColumn === currentColumn && e.target.getAttribute('player') !== playersTurn) ||
+         (targetRow === currentRow + 1 && targetColumn === currentColumn && e.target.getAttribute('player') !== playersTurn) ||
+         (targetRow === currentRow - 1 && targetColumn === currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) ||
+         (targetRow === currentRow + 1 && targetColumn === currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) ||
+         (targetRow === currentRow + 1 && targetColumn === currentColumn + 1 && e.target.getAttribute('player') !== playersTurn) ||
+         (targetRow === currentRow -1 && targetColumn === currentColumn + 1 && e.target.getAttribute('player') !== playersTurn)){
         legalMove = true;
+      }
     }
-    }
-    //handles knight moves CURRENTLY DOES NOTHING
+    //handles knight moves
     if(target.getAttribute('piece') === "knight"){
+      if( (targetRow === currentRow - 1 && targetColumn == currentColumn - 2 && e.target.getAttribute('player') !== playersTurn) ||
+          (targetRow === currentRow - 2 && targetColumn == currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) ||
+          (targetRow === currentRow - 2 && targetColumn == currentColumn + 1 && e.target.getAttribute('player') !== playersTurn) ||
+          (targetRow === currentRow - 1 && targetColumn == currentColumn + 2 && e.target.getAttribute('player') !== playersTurn) ||
+          (targetRow === currentRow + 1 && targetColumn == currentColumn + 2 && e.target.getAttribute('player') !== playersTurn) ||
+          (targetRow === currentRow + 2 && targetColumn == currentColumn + 1 && e.target.getAttribute('player') !== playersTurn) ||
+          (targetRow === currentRow + 2 && targetColumn == currentColumn - 1 && e.target.getAttribute('player') !== playersTurn) ||
+          (targetRow === currentRow + 1 && targetColumn == currentColumn - 2 && e.target.getAttribute('player') !== playersTurn)){
+        legalMove = true;
+      }
     }
     //Here is probably where I'll put functions for checking mate, check, and stalemate conditions
     //
