@@ -14,6 +14,7 @@ var legalMove = false;
 let errorSound = document.getElementById("errorSound");
 let moveSound = document.getElementById("moveSound");
 let promotionSound = document.getElementById("promotionSound");
+let eligableSquares = [];
 promotionSound.load();
 
 
@@ -222,6 +223,7 @@ let isLegalMove = function(target, e){
     //handles all vertical and horizontal moves. Ultimately handles the bishop, rook, queen, and king
     if(target.getAttribute('piece') === "rook" || target.getAttribute('piece') === "bishop" || target.getAttribute('piece') === "queen" || target.getAttribute('piece') === "king"){
       console.log(target.getAttribute('piece'));
+      // checkHorizontal(target, currentRow, currentColumn);
     }
     //handles knight moves CURRENTLY DOES NOTHING
     if(target.getAttribute('piece') === "knight"){
@@ -230,3 +232,18 @@ let isLegalMove = function(target, e){
     //
   }
 }
+
+//currently broken because I am stuck on how to loop through the potential horizontal squares
+// const checkHorizontal = function(target, currentRow, currentColumn){
+//   let div = document.getElementsByTagName('div');
+//   let potentialSquare;
+//   let divsInRow = [];
+//   for (var i = 0; i < div.length; i++) {
+//     if(parseInt(div[i].getAttribute('row')) === currentRow){
+//       divsInRow.push(div[i]);
+//     }
+//   }
+//   for (var i = 1; i < 8; i++) {
+//     if()
+//     }
+// }
