@@ -9,14 +9,16 @@ var fromSquare;
 let lastMoveColor = "#9ff474";
 let highlight = "#53f600";
 let legalSquaresColor = "#f9eb9b";
-var playersTurn = "white";
-var legalMove = false;
+let playersTurn = "white";
+let legalMove = false;
 let errorSound = document.getElementById("errorSound");
 let moveSound = document.getElementById("moveSound");
 let promotionSound = document.getElementById("promotionSound");
 let eligableSquares = [];
 const playerWhite = document.getElementById('playerWhite');
 const playerBlack = document.getElementById('playerBlack');
+let threatenedByWhite = [];
+let threatenedByBlack = [];
 promotionSound.load();
 
 
@@ -134,6 +136,7 @@ let move = function(e){
   originalColor = undefined;
   legalMove = false;
   captureEnPassant = false;
+  checkThreatenedSquares();
   eligableSquares = [];
   moveSound.load();
   moveSound.play();
@@ -438,6 +441,35 @@ let checkDiagonal = function(target, currentRow, currentColumn){
             loopDownRight = false;
             break;
           }
+        }
+      }
+    }
+  }
+}
+
+//checks the squares threatened by each color and puts the divs in the appropriate arrays
+const checkThreatenedSquares = function(){
+  var div = document.getElementsByTagName("div");
+  let square;
+  let attackLeft;
+  let attackRight;
+  let row;
+  let column;
+  for (var i = 0; i < div.length; i++) {
+    //All pawn threats
+    if(div[i].getAttribute('piece') === "pawn"){
+      let blackRow = ((parseInt(div[i].getAttribute('row'))) + 1).toString();
+      let blackRight = ((parseInt(div[i].getAttribute('column'))) + 1).toString();
+      let blackLeft = ((parseInt(div[i].getAttribute('column'))) - 1).toString();
+      let whiteRow = ((parseInt(div[i].getAttribute('row'))) - 1).toString();
+      let whiteRight = ((parseInt(div[i].getAttribute('column'))) + 1).toString();
+      let whiteLeft = ((parseInt(div[i].getAttribute('column'))) - 1).toString();
+      for (var x = 0; x < div.length; x++) {
+        if((div[x].getAttribute('row') === blackRow && div[x].getAttribute('column') === blackRight)  && div[i].getAttribute('player') === 'black' || (div[x].getAttribute('row') === blackRow && div[x].getAttribute('column') === blackLeft  && div[i].getAttribute('player') === 'black' )){
+          threatenedByBlack.push(div[x]);
+        }
+        if((div[x].getAttribute('row') === whiteRow && div[x].getAttribute('column') === whiteRight)  && div[i].getAttribute('player') === 'white' || (div[x].getAttribute('row') === whiteRow && div[x].getAttribute('column') === whiteLeft  && div[i].getAttribute('player') === 'white' )){
+          threatenedByWhite.push(div[x]);
         }
       }
     }
